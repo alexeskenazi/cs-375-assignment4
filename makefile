@@ -25,5 +25,9 @@ test: graph_assignment lp_assignment
 	./graph_assignment
 	./lp_assignment
 
+run: clean test
+	./graph_assignment
+	./lp_assignment
+
 clean:
 	rm -f *.o graph_assignment lp_assignment
