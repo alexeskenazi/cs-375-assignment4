@@ -9,7 +9,6 @@ using namespace std;
 int main() {
     cout << "CS 375 Assignment 4 - Graph Algorithm" << endl;
     
-    // Create graph with 15 courses (cs1 to cs15)
     Graph g(15);
     
     // Set course names
@@ -75,9 +74,14 @@ int main() {
     
     if (order.size() != 15) {
         cout << "ERROR: Only processed " << order.size() << " courses! Graph might have cycles." << endl;
+        return 1;
     } else {
         cout << "Success! All 15 courses processed." << endl;
     }
+    
+    cout << "\n--- Minimum Semesters Calculation ---" << endl;
+    int answer = g.calculateMinSemesters();
+    cout << "\nMINIMUM SEMESTERS NEEDED: " << answer << endl;
     
     return 0;
 }

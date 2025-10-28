@@ -92,6 +92,43 @@ public:
         
         return result;
     }
+    
+    // Calculate minimum semesters - each course semester = 1 + max of prerequisite semesters
+    int calculateMinSemesters() {
+        vector<int> semester(numCourses, 0);
+        vector<int> order = topSort();
+        
+        // Process in topological order
+        for (int course : order) {
+            int maxPrereqSemester = 0;
+            
+            // Find max semester of all prerequisites
+            for (int i = 0; i < numCourses; i++) {
+                for (int next : adj[i]) {
+                    if (next == course) {
+                        // i is a prerequisite of course
+                        maxPrereqSemester = max(maxPrereqSemester, semester[i]);
+                    }
+                }
+            }
+            
+            semester[course] = maxPrereqSemester + 1;
+        }
+        
+        // Show when each course can be taken
+        cout << "Course scheduling:" << endl;
+        for (int i = 0; i < numCourses; i++) {
+            cout << courseNames[i] << " - semester " << semester[i] << endl;
+        }
+        
+        // Find maximum semester
+        int maxSem = 0;
+        for (int i = 0; i < numCourses; i++) {
+            maxSem = max(maxSem, semester[i]);
+        }
+        
+        return maxSem;
+    }
 };
 
 #endif
