@@ -60,6 +60,24 @@ int main() {
     g.printGraph();
     g.printPrereqCount();
     
+    // Try topological sorting
+    cout << "\n--- Testing Topological Sort ---" << endl;
+    vector<int> order = g.topSort();
+    
+    cout << "Course order: ";
+    for (int i = 0; i < (int)order.size(); i++) {
+        cout << g.courseNames[order[i]];
+        if (i < (int)order.size() - 1) {
+            cout << " -> ";
+        }
+    }
+    cout << endl;
+    
+    if (order.size() != 15) {
+        cout << "ERROR: Only processed " << order.size() << " courses! Graph might have cycles." << endl;
+    } else {
+        cout << "Success! All 15 courses processed." << endl;
+    }
     
     return 0;
 }

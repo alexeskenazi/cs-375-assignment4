@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 
 using namespace std;
 
@@ -52,6 +53,44 @@ public:
         for (int i = 0; i < numCourses; i++) {
             cout << courseNames[i] << ": " << prereqCount[i] << " prerequisites" << endl;
         }
+    }
+    
+    // Topological sort - learned this is like BFS but remove prerequisites first
+    vector<int> topSort() {
+        vector<int> prereqs(numCourses, 0);
+        vector<int> result;
+        queue<int> ready;
+        
+        // Count prerequisites 
+        for (int i = 0; i < numCourses; i++) {
+            for (int course : adj[i]) {
+                prereqs[course]++;
+            }
+        }
+        
+        // Start with courses that have no prerequisites
+        for (int i = 0; i < numCourses; i++) {
+            if (prereqs[i] == 0) {
+                ready.push(i);
+            }
+        }
+        
+        // Keep taking courses until done
+        while (!ready.empty()) {
+            int current = ready.front();
+            ready.pop();
+            result.push_back(current);
+            
+            // Remove this course as a prerequisite for others
+            for (int next : adj[current]) {
+                prereqs[next]--;
+                if (prereqs[next] == 0) {
+                    ready.push(next);
+                }
+            }
+        }
+        
+        return result;
     }
 };
 
