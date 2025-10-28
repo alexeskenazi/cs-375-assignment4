@@ -160,6 +160,38 @@ public:
         }
         return false;
     }
+    
+    // Check if graph is bipartite - can color with 2 colors
+    bool isBipartite(vector<int>& group) {
+        group.assign(numCourses, -1);
+        queue<int> q;
+        
+        // Check each connected component
+        for (int start = 0; start < numCourses; start++) {
+            if (group[start] == -1) {
+                // Start BFS from this node
+                group[start] = 0;
+                q.push(start);
+                
+                while (!q.empty()) {
+                    int current = q.front();
+                    q.pop();
+                    
+                    for (int next : adj[current]) {
+                        if (group[next] == -1) {
+                            // Color with opposite color
+                            group[next] = 1 - group[current];
+                            q.push(next);
+                        } else if (group[next] == group[current]) {
+                            // Same color - not bipartite
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 };
 
 #endif

@@ -95,5 +95,38 @@ int main() {
     int answer = g.calculateMinSemesters();
     cout << "\nMINIMUM SEMESTERS NEEDED: " << answer << endl;
     
+    // Check if graph is bipartite
+    cout << "\n--- Bipartite Check ---" << endl;
+    vector<int> groups;
+    if (g.isBipartite(groups)) {
+        cout << "Graph is bipartite!" << endl;
+        
+        // Show the two groups
+        vector<int> group0, group1;
+        for (int i = 0; i < 15; i++) {
+            if (groups[i] == 0) {
+                group0.push_back(i);
+            } else {
+                group1.push_back(i);
+            }
+        }
+        
+        cout << "Group 1: ";
+        for (int i = 0; i < (int)group0.size(); i++) {
+            cout << g.courseNames[group0[i]];
+            if (i < (int)group0.size() - 1) cout << ", ";
+        }
+        cout << endl;
+        
+        cout << "Group 2: ";
+        for (int i = 0; i < (int)group1.size(); i++) {
+            cout << g.courseNames[group1[i]];
+            if (i < (int)group1.size() - 1) cout << ", ";
+        }
+        cout << endl;
+    } else {
+        cout << "Graph is NOT bipartite." << endl;
+    }
+    
     return 0;
 }
