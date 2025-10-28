@@ -1,49 +1,29 @@
 CXX = g++
 CXXFLAGS = -Wall -Wsign-compare -g -std=c++11
 
-all: floyd_warshall lcs_three partition_dp lcs_two
+all: graph_assignment lp_assignment
 
-floyd_warshall: floyd_warshall.o
-	$(CXX) $(CXXFLAGS) floyd_warshall.o -o floyd_warshall
+graph_assignment: graph_assignment.o
+	$(CXX) $(CXXFLAGS) graph_assignment.o -o graph_assignment
 
-floyd_warshall.o: floyd_warshall.cpp
-	$(CXX) $(CXXFLAGS) -c floyd_warshall.cpp
+graph_assignment.o: graph_assignment.cpp
+	$(CXX) $(CXXFLAGS) -c graph_assignment.cpp
 
-submission: floyd_warshall
-	cp floyd_warshall submission
+lp_assignment: lp_assignment.o
+	$(CXX) $(CXXFLAGS) lp_assignment.o -o lp_assignment
 
-lcs_three: lcs_three.o
-	$(CXX) $(CXXFLAGS) lcs_three.o -o lcs_three
+lp_assignment.o: lp_assignment.cpp
+	$(CXX) $(CXXFLAGS) -c lp_assignment.cpp
 
-lcs_three.o: lcs_three.cpp
-	$(CXX) $(CXXFLAGS) -c lcs_three.cpp
+test_graph: graph_assignment
+	./graph_assignment
 
-partition_dp: partition_dp.o
-	$(CXX) $(CXXFLAGS) partition_dp.o -o partition_dp
+test_lp: lp_assignment
+	./lp_assignment
 
-partition_dp.o: partition_dp.cpp
-	$(CXX) $(CXXFLAGS) -c partition_dp.cpp
-
-run: floyd_warshall
-	./floyd_warshall input.txt output.txt
-
-test: floyd_warshall
-	./floyd_warshall
-
-lcs: lcs_three
-	./lcs_three
-
-partition: partition_dp
-	./partition_dp
-
-lcs_two: lcs_two.o
-	$(CXX) $(CXXFLAGS) lcs_two.o -o lcs_two
-
-lcs_two.o: lcs_two.cpp
-	$(CXX) $(CXXFLAGS) -c lcs_two.cpp
-
-lcs2: lcs_two
-	./lcs_two
+test: graph_assignment lp_assignment
+	./graph_assignment
+	./lp_assignment
 
 clean:
-	rm -f *.o floyd_warshall submission lcs_three partition_dp lcs_two
+	rm -f *.o graph_assignment lp_assignment

@@ -40,3 +40,8 @@
 # debug information files
 *.dwo
 ~$25Fall_Assignment4-cs375.docx
+graph_algorithm
+linear_programming
+tmp/
+graph_assignment
+lp_assignment
