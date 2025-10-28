@@ -1,0 +1,19 @@
+
+//** Print out the minimum cost, and number cups of drink X and number of cups of drink Y **//
+Minimum cost: W
+# (drink X): Nx
+# (drink Y): Ny
+
+   
+//** Print out the maximum profit, and number of items x1, x2, x3 **//
+Maximum profit: P
+# (x1): N_x1
+# (x2): N_x2
+# (x3): N_x3
+
+
+//** print out running time **//
+Running-time
+
+
+

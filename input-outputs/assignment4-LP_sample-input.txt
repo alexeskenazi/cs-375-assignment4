@@ -1,0 +1,18 @@
+
+//** Linear Programming with n decision variables and m constraints, with <=, =, or >=  **//
+<= (or =; or >=)
+
+//* object function coefficients Cj *//
+C1 C2 ... Cn
+
+//* constraint coefficients Aij and constraint level Bi  *//
+A11 A12 .... A1n B1
+A21 A22 .... A2n B2
+....
+....
+Am1 Am2 .... Amn Bm
+
+
+
+
+
