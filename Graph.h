@@ -129,6 +129,37 @@ public:
         
         return maxSem;
     }
+    
+    // Check for cycles using DFS - learned about white/gray/black nodes
+    bool hasCycleDFS(int node, vector<int>& color) {
+        color[node] = 1; // gray - visiting
+        
+        for (int neighbor : adj[node]) {
+            if (color[neighbor] == 1) {
+                // Found back edge - cycle!
+                return true;
+            }
+            if (color[neighbor] == 0 && hasCycleDFS(neighbor, color)) {
+                return true;
+            }
+        }
+        
+        color[node] = 2; // black - finished
+        return false;
+    }
+    
+    bool hasCycle() {
+        vector<int> color(numCourses, 0); // 0=white, 1=gray, 2=black
+        
+        for (int i = 0; i < numCourses; i++) {
+            if (color[i] == 0) {
+                if (hasCycleDFS(i, color)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 };
 
 #endif

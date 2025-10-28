@@ -54,10 +54,22 @@ int main() {
     g.addEdge(5, 13); 
     
     // cs15 requires cs14
-    g.addEdge(13, 14); 
+    g.addEdge(13, 14);
+    
+    // Test cycle detection by adding a cycle temporarily
+    // g.addEdge(14, 13); // This would create cs14 -> cs15 -> cs14 cycle 
     
     g.printGraph();
     g.printPrereqCount();
+    
+    // Check for cycles first
+    cout << "\n--- Checking for Cycles ---" << endl;
+    if (g.hasCycle()) {
+        cout << "CYCLE FOUND! This prerequisite structure is impossible." << endl;
+        return 1;
+    } else {
+        cout << "No cycles found - prerequisite structure is valid." << endl;
+    }
     
     // Try topological sorting
     cout << "\n--- Testing Topological Sort ---" << endl;
