@@ -14,21 +14,25 @@ using namespace std;
 //   5x1 + 2x2 + 4x3 <= 57
 //   x1, x2, x3 >= 0
 
+// Class to solve linear programming problems using simplex method
 class SimplexSolver {
 private:
-    vector<vector<double>> table;
+    vector<vector<double>> table;  // The simplex table
     int rows, cols;
     
 public:
+    // Constructor sets up the initial simplex table
     SimplexSolver() {
-        rows = 5;
-        cols = 8;
+        rows = 5;  // 4 constraints + 1 objective function
+        cols = 8;  // 3 variables + 4 slack variables + RHS
         
         table.resize(rows);
         for (int i = 0; i < rows; i++) {
             table[i].resize(cols, 0);
         }
         
+        // Set up constraint equations with slack variables
+        // 3x1 + 2x2 + 5x3 + s1 = 55
         table[0][0] = 3; 
         table[0][1] = 2; 
         table[0][2] = 5; 
@@ -53,6 +57,8 @@ public:
         table[3][6] = 1; 
         table[3][7] = 57;
         
+        // Objective function: maximize P = 20x1 + 10x2 + 15x3
+        // Convert to standard form by negating coefficients
         table[4][0] = -20; 
         table[4][1] = -10; 
         table[4][2] = -15; 
@@ -78,15 +84,18 @@ public:
         cout << "-------------------------------------------------------" << endl;
     }
     
+    // Perform row operations to make pivot element = 1 and other column elements = 0
     void doPivotOperations(int pivotRow, int pivotCol) {
         double pivotElement = table[pivotRow][pivotCol];
         cout << "Making pivot element 1 by dividing row " << pivotRow 
              << " by " << pivotElement << endl;
         
+        // Make pivot element equal to 1
         for (int j = 0; j < cols; j++) {
             table[pivotRow][j] = table[pivotRow][j] / pivotElement;
         }
         
+        // Make all other elements in pivot column equal to 0
         for (int i = 0; i < rows; i++) {
             if (i != pivotRow) {
                 double factor = table[i][pivotCol];
@@ -99,6 +108,8 @@ public:
         }
     }
     
+    // Check if we have reached optimal solution
+    // Optimal when all coefficients in objective row are non-negative
     bool isOptimal() {
         for (int j = 0; j < cols - 1; j++) {
             if (table[rows-1][j] < 0) {
@@ -120,6 +131,7 @@ public:
             iteration++;
             cout << "\n--- Iteration " << iteration << " ---" << endl;
             
+            // Find entering variable (most negative coefficient)
             double mostNegative = 0;
             int pivotCol = -1;
             for (int j = 0; j < cols - 1; j++) {
@@ -136,6 +148,7 @@ public:
             
             cout << "Entering variable: x" << (pivotCol + 1) << endl;
             
+            // Find leaving variable using minimum ratio test
             double minRatio = 999999;
             int pivotRow = -1;
             cout << "Ratio test:" << endl;
@@ -167,8 +180,10 @@ public:
         
         cout << "\n=== OPTIMAL SOLUTION ===" << endl;
         
+        // Extract solution values from final table
         double x1 = 0, x2 = 0, x3 = 0;
         
+        // Look for basic variables (coefficient = 1 in their column)
         for (int i = 0; i < 4; i++) {
             if (table[i][0] == 1) {
                 x1 = table[i][7];
@@ -195,15 +210,18 @@ int main() {
     cout << "Simplex Algorithm for Question #9" << endl;
     cout << "==================================" << endl;
     
+    // Start timing
     clock_t start = clock();
     
     SimplexSolver solver;
     solver.solve();
     
+    // Calculate and display running time
     clock_t end = clock();
     double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
     
     cout << "\nRunning time: " << time << " milliseconds" << endl;
+    cout << "==================================" << endl;
     
     return 0;
 }
