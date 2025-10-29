@@ -29,6 +29,33 @@ public:
         }
         
         table[0][0] = 3; 
+        table[0][1] = 2; 
+        table[0][2] = 5; 
+        table[0][3] = 1; 
+        table[0][7] = 55;
+        
+        table[1][0] = 2; 
+        table[1][1] = 1; 
+        table[1][2] = 1; 
+        table[1][4] = 1; 
+        table[1][7] = 26;
+        
+        table[2][0] = 1; 
+        table[2][1] = 1; 
+        table[2][2] = 3; 
+        table[2][5] = 1; 
+        table[2][7] = 30;
+        
+        table[3][0] = 5; 
+        table[3][1] = 2; 
+        table[3][2] = 4; 
+        table[3][6] = 1; 
+        table[3][7] = 57;
+        
+        table[4][0] = -20; 
+        table[4][1] = -10; 
+        table[4][2] = -15; 
+        table[4][7] = 0;
     }
     
     void printTable() {
