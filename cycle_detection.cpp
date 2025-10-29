@@ -91,7 +91,9 @@ public:
 };
 
 int main() {
-    cout << "CS 375 Problem 2: Cycle Detection" << endl;
+    cout << endl;
+    cout << "CS 375 Problem 2.b: Cycle Detection" << endl;
+    cout << "(b) [6%] Programming: implement your algorithm by using an appropriate data structure, and print out a cycle if the graph a cyclic. Print out the running time." << endl;
     cout << "=================================" << endl;
     
     cout << "\n--- Testing Graph (i) ---" << endl;
@@ -155,6 +157,8 @@ int main() {
     directedGraph.printGraph();
     
     directedGraph.bfsTraversal(0);
+    cout << endl;
+
     
     return 0;
 }
