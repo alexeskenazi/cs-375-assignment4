@@ -28,6 +28,7 @@ public:
             table[i].resize(cols, 0);
         }
         
+        table[0][0] = 3; 
     }
     
     void printTable() {
