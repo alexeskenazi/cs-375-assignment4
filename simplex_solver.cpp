@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <iomanip>
 #include <ctime>
 
 using namespace std;
@@ -59,14 +60,22 @@ public:
     }
     
     void printTable() {
-        cout << "Current table:" << endl;
+        cout << "    x1      x2      x3      s1      s2      s3      s4      RHS" << endl;
+        cout << "-------------------------------------------------------" << endl;
+        
         for (int i = 0; i < rows; i++) {
+            if (i < 4) {
+                cout << "s" << (i+1) << " ";
+            } else {
+                cout << "P  ";
+            }
+            
             for (int j = 0; j < cols; j++) {
                 cout << table[i][j] << "\t";
             }
             cout << endl;
         }
-        cout << endl;
+        cout << "-------------------------------------------------------" << endl;
     }
     
     void doPivotOperations(int pivotRow, int pivotCol) {
@@ -90,14 +99,25 @@ public:
         }
     }
     
+    bool isOptimal() {
+        for (int j = 0; j < cols - 1; j++) {
+            if (table[rows-1][j] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     void solve() {
         cout << "Solving using Simplex Method..." << endl;
+        cout << "Problem: Maximize P = 20x1 + 10x2 + 15x3" << endl;
         cout << "Initial table:" << endl;
         printTable();
         
-        int iteration = 1;
+        int iteration = 0;
         
-        while (iteration <= 3) {
+        while (!isOptimal()) {
+            iteration++;
             cout << "\n--- Iteration " << iteration << " ---" << endl;
             
             double mostNegative = 0;
@@ -110,12 +130,11 @@ public:
             }
             
             if (pivotCol == -1) {
-                cout << "No negative coefficients - optimal solution found!" << endl;
+                cout << "Optimal solution found!" << endl;
                 break;
             }
             
-            cout << "Entering variable: column " << pivotCol 
-                 << " (coefficient " << mostNegative << ")" << endl;
+            cout << "Entering variable: x" << (pivotCol + 1) << endl;
             
             double minRatio = 999999;
             int pivotRow = -1;
@@ -137,22 +156,37 @@ public:
                 return;
             }
             
-            cout << "Leaving variable: row " << pivotRow << endl;
+            cout << "Leaving variable: s" << (pivotRow + 1) << endl;
             cout << "Pivot element: " << table[pivotRow][pivotCol] << endl;
             
             doPivotOperations(pivotRow, pivotCol);
             
             cout << "\nAfter pivot operations:" << endl;
             printTable();
-            
-            iteration++;
         }
         
-        cout << "\n=== FINAL SOLUTION ===" << endl;
-        cout << "Objective value (P): " << table[4][7] << endl;
+        cout << "\n=== OPTIMAL SOLUTION ===" << endl;
         
-        cout << "Need to extract variable values from final table..." << endl;
-        cout << "(This is the hardest part!)" << endl;
+        double x1 = 0, x2 = 0, x3 = 0;
+        
+        for (int i = 0; i < 4; i++) {
+            if (table[i][0] == 1) {
+                x1 = table[i][7];
+            }
+            if (table[i][1] == 1) {
+                x2 = table[i][7];
+            }
+            if (table[i][2] == 1) {
+                x3 = table[i][7];
+            }
+        }
+        
+        double maxProfit = table[rows-1][7];
+        
+        cout << "x1 = " << x1 << endl;
+        cout << "x2 = " << x2 << endl;  
+        cout << "x3 = " << x3 << endl;
+        cout << "Maximum P = " << maxProfit << endl;
     }
 };
 
