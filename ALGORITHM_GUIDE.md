@@ -1,15 +1,16 @@
 # CS 375 Assignment 4 - Algorithm Guide
 
 ## Project Overview
-This assignment implements three main algorithmic solutions:
-1. **Graph Algorithm**: Course prerequisite scheduling using DAG algorithms
-2. **Linear Programming**: Diet optimization using corner point method
+This assignment implements multiple algorithmic solutions:
+1. **Graph Algorithm**: Part B.1 - Course prerequisite scheduling using DAG algorithms
+2. **Linear Programming**: Part B.2 - Diet optimization using corner point method
 3. **Simplex Algorithm**: 3-variable LP maximization (extra credit)
-4. **Cycle Detection**: Undirected graph cycle detection with BFS traversal
+4. **Cycle Detection**: Problem 2b - undirected graph cycle detection with BFS traversal
+5. **Topological Sort**: DFS-based topological ordering with edge classification
 
 ---
 
-## 1. Graph Assignment (graph_assignment.cpp)
+## 1. Graph Assignment (B1_graph_assignment.cpp)
 
 ### Problem
 Find the minimum number of semesters needed to complete all 15 CS courses given prerequisite constraints.
@@ -26,13 +27,10 @@ Find the minimum number of semesters needed to complete all 15 CS courses given 
   4. Add newly available courses to queue
   5. Continue until all courses processed
 
-#### **Cycle Detection (DFS with Color Coding)**
+#### **Implicit Cycle Detection**
 - **Purpose**: Verify prerequisite structure is feasible (no circular dependencies)
-- **Algorithm**: Three-color DFS
-  - **White (0)**: Unvisited
-  - **Gray (1)**: Currently being processed
-  - **Black (2)**: Completely processed
-- **Cycle Detection**: If we reach a gray node, we found a back edge (cycle)
+- **Method**: Topological sort inherently detects cycles
+- **Logic**: If topological sort can't process all courses, cycles exist
 
 #### **Minimum Semester Calculation**
 - **Purpose**: Find the longest path in the DAG (critical path)
@@ -41,18 +39,12 @@ Find the minimum number of semesters needed to complete all 15 CS courses given 
   2. For each course: semester = 1 + max(prerequisite semesters)
   3. Return maximum semester among all courses
 
-#### **Bipartite Check (BFS Coloring)**
-- **Purpose**: Determine if courses can be divided into two groups with no internal prerequisites
-- **Algorithm**:
-  1. Use BFS to color graph with two colors (0 and 1)
-  2. If adjacent nodes have same color → not bipartite
-  3. Check all connected components
 
 ### **Results**: 5 semesters needed
 
 ---
 
-## 2. Linear Programming Assignment (lp_assignment.cpp)
+## 2. Linear Programming Assignment (B2_lp_assignment.cpp)
 
 ### Problem
 Minimize cost of drinks X and Y while meeting nutritional requirements:
@@ -110,7 +102,7 @@ Maximize P = 20x₁ + 10x₂ + 15x₃ subject to:
 
 ---
 
-## 4. Cycle Detection (cycle_detection.cpp)
+## 4. Cycle Detection (2b_cycle_detection.cpp)
 
 ### Problem 2 Solution
 
@@ -131,6 +123,34 @@ Maximize P = 20x₁ + 10x₂ + 15x₃ subject to:
 
 ---
 
+## 5. Topological Sort (5_topological_sort.cpp)
+
+### Problem 5 Solution
+DFS-based topological sort with discovery/finishing times and edge classification.
+
+#### **Algorithm**: Depth-First Search with Timing
+- **Data Structure**: Adjacency list representation
+- **Traversal Order**: Start with node 1, then node 7, with node 2 before node 4
+- **Edge Classification**:
+  - **T (Tree Edge)**: Leads to unvisited node
+  - **B (Back Edge)**: Points to ancestor (indicates cycle in directed graph)
+  - **F (Forward Edge)**: Points to descendant
+  - **C (Cross Edge)**: Points to previously finished node
+
+#### **DFS Algorithm Steps**:
+1. Color nodes: White (0) → Gray (1) → Black (2)
+2. Track discovery and finishing times
+3. Classify each edge based on destination node state
+4. Build topological order using finishing times
+
+### **Results**:
+- **Topological Order**: 1 → 7 → 4 → 8 → 6 → 2 → 5 → 3
+- **Edge Types**: All four types identified correctly
+- **Discovery/Finish Times**: Complete timing for each node
+- **Time Complexity**: O(V + E)
+
+---
+
 ## Key Performance Metrics
 
 | Program | Algorithm | Time Complexity | Running Time |
@@ -139,16 +159,18 @@ Maximize P = 20x₁ + 10x₂ + 15x₃ subject to:
 | LP Assignment | Corner Point Method | O(n²) | ~0.02 ms |
 | Simplex Algorithm | Simplex Method | Exponential (worst case) | ~0.11 ms |
 | Cycle Detection | DFS | O(V + E) | ~0.004 ms |
+| Topological Sort (Problem 5) | DFS with Timing | O(V + E) | ~0.04 ms |
 
 ---
 
 ## Presentation Key Points
 
 ### **Technical Highlights**:
-1. **Graph Theory**: DAG properties, topological ordering, cycle detection
+1. **Graph Theory**: DAG properties, topological ordering, cycle detection, DFS traversal
 2. **Linear Programming**: Feasible regions, corner point theorem, optimization
 3. **Algorithm Analysis**: Time/space complexity understanding
 4. **Data Structures**: Adjacency lists, queues, vectors
+5. **Edge Classification**: Tree, back, forward, and cross edges in DFS
 
 ### **Problem-Solving Approach**:
 1. **Mathematical Modeling**: Convert real problems to algorithmic solutions
