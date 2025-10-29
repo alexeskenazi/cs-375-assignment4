@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "Graph.h"
 
 using namespace std;
@@ -92,8 +93,14 @@ int main() {
     }
     
     cout << "\n--- Minimum Semesters Calculation ---" << endl;
+    clock_t start = clock();
     int answer = g.calculateMinSemesters();
+    clock_t end = clock();
+    
     cout << "\nMINIMUM SEMESTERS NEEDED: " << answer << endl;
+    
+    double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+    cout << "Running time: " << time << " milliseconds" << endl;
     
     // Check if graph is bipartite
     cout << "\n--- Bipartite Check ---" << endl;
