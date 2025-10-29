@@ -36,8 +36,28 @@ Constraint Verification:
 Algorithm: Corner point method
 Running time: ~0.02 milliseconds
 
+PART B.3: SIMPLEX ALGORITHM (EXTRA CREDIT)
+-------------------------------------------
+Problem: Question #9 - Maximize P = 20x1 + 10x2 + 15x3
+
+Result: MAXIMUM P = 268.00
+
+Optimal Solution:
+- x1 = 1.80
+- x2 = 20.80  
+- x3 = 1.60
+
+Algorithm: Full Simplex Method with tableau iterations
+- 3 iterations to reach optimality
+- Shows step-by-step pivot operations
+- Complete tableau display at each iteration
+- Ratio test and entering/leaving variable identification
+
+Running time: ~0.11 milliseconds
+
 COMPILATION
 -----------
 To build: make all
-To test: make test
+To test: make test  
+To test individual parts: make test_graph, make test_lp, make test_simplex
 To clean: make clean
