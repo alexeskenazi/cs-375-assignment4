@@ -69,45 +69,90 @@ public:
         cout << endl;
     }
     
+    void doPivotOperations(int pivotRow, int pivotCol) {
+        double pivotElement = table[pivotRow][pivotCol];
+        cout << "Making pivot element 1 by dividing row " << pivotRow 
+             << " by " << pivotElement << endl;
+        
+        for (int j = 0; j < cols; j++) {
+            table[pivotRow][j] = table[pivotRow][j] / pivotElement;
+        }
+        
+        for (int i = 0; i < rows; i++) {
+            if (i != pivotRow) {
+                double factor = table[i][pivotCol];
+                cout << "Making row " << i << " element 0 using factor " << factor << endl;
+                
+                for (int j = 0; j < cols; j++) {
+                    table[i][j] = table[i][j] - factor * table[pivotRow][j];
+                }
+            }
+        }
+    }
+    
     void solve() {
         cout << "Solving using Simplex Method..." << endl;
         cout << "Initial table:" << endl;
         printTable();
         
-        cout << "Looking for most negative coefficient..." << endl;
-        double mostNegative = 0;
-        int pivotCol = -1;
-        for (int j = 0; j < cols - 1; j++) {
-            if (table[4][j] < mostNegative) {
-                mostNegative = table[4][j];
-                pivotCol = j;
-            }
-        }
+        int iteration = 1;
         
-        if (pivotCol == -1) {
-            cout << "No negative coefficients found - optimal!" << endl;
-            return;
-        }
-        
-        cout << "Most negative is " << mostNegative << " in column " << pivotCol << endl;
-        
-        cout << "Doing ratio test..." << endl;
-        double minRatio = 999999;
-        int pivotRow = -1;
-        for (int i = 0; i < 4; i++) {
-            if (table[i][pivotCol] > 0) {
-                double ratio = table[i][7] / table[i][pivotCol];
-                cout << "Row " << i << ": " << table[i][7] << "/" << table[i][pivotCol] 
-                     << " = " << ratio << endl;
-                if (ratio < minRatio) {
-                    minRatio = ratio;
-                    pivotRow = i;
+        while (iteration <= 3) {
+            cout << "\n--- Iteration " << iteration << " ---" << endl;
+            
+            double mostNegative = 0;
+            int pivotCol = -1;
+            for (int j = 0; j < cols - 1; j++) {
+                if (table[4][j] < mostNegative) {
+                    mostNegative = table[4][j];
+                    pivotCol = j;
                 }
             }
+            
+            if (pivotCol == -1) {
+                cout << "No negative coefficients - optimal solution found!" << endl;
+                break;
+            }
+            
+            cout << "Entering variable: column " << pivotCol 
+                 << " (coefficient " << mostNegative << ")" << endl;
+            
+            double minRatio = 999999;
+            int pivotRow = -1;
+            cout << "Ratio test:" << endl;
+            for (int i = 0; i < 4; i++) {
+                if (table[i][pivotCol] > 0) {
+                    double ratio = table[i][7] / table[i][pivotCol];
+                    cout << "  Row " << i << ": " << table[i][7] << "/" 
+                         << table[i][pivotCol] << " = " << ratio << endl;
+                    if (ratio < minRatio) {
+                        minRatio = ratio;
+                        pivotRow = i;
+                    }
+                }
+            }
+            
+            if (pivotRow == -1) {
+                cout << "Unbounded solution!" << endl;
+                return;
+            }
+            
+            cout << "Leaving variable: row " << pivotRow << endl;
+            cout << "Pivot element: " << table[pivotRow][pivotCol] << endl;
+            
+            doPivotOperations(pivotRow, pivotCol);
+            
+            cout << "\nAfter pivot operations:" << endl;
+            printTable();
+            
+            iteration++;
         }
         
-        cout << "Pivot at row " << pivotRow << ", col " << pivotCol << endl;
-        cout << "This is where I get stuck - need to do row operations..." << endl;
+        cout << "\n=== FINAL SOLUTION ===" << endl;
+        cout << "Objective value (P): " << table[4][7] << endl;
+        
+        cout << "Need to extract variable values from final table..." << endl;
+        cout << "(This is the hardest part!)" << endl;
     }
 };
 
