@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Wall -Wsign-compare -g -std=c++11
 
-all: graph_assignment lp_assignment simplex_solver cycle_detection
+all: graph_assignment lp_assignment simplex_solver cycle_detection 5_topological_sort
 
 graph_assignment: graph_assignment.o
 	$(CXX) $(CXXFLAGS) graph_assignment.o -o graph_assignment
@@ -27,6 +27,12 @@ cycle_detection: cycle_detection.o
 cycle_detection.o: cycle_detection.cpp
 	$(CXX) $(CXXFLAGS) -c cycle_detection.cpp
 
+5_topological_sort: 5_topological_sort.o
+	$(CXX) $(CXXFLAGS) 5_topological_sort.o -o 5_topological_sort
+
+5_topological_sort.o: 5_topological_sort.cpp
+	$(CXX) $(CXXFLAGS) -c 5_topological_sort.cpp
+
 test_graph: graph_assignment
 	./graph_assignment
 
@@ -39,17 +45,22 @@ test_simplex: simplex_solver
 test_cycle: cycle_detection
 	./cycle_detection
 
-test: graph_assignment lp_assignment simplex_solver cycle_detection
+test_topo: 5_topological_sort
+	./5_topological_sort
+
+test: graph_assignment lp_assignment simplex_solver cycle_detection 5_topological_sort
 	./graph_assignment
 	./lp_assignment
 	./simplex_solver
 	./cycle_detection
+	./5_topological_sort
 
 run: clean test
 	./graph_assignment
 	./lp_assignment
 	./simplex_solver
 	./cycle_detection
+	./5_topological_sort
 
 clean:
-	rm -f *.o graph_assignment lp_assignment simplex_solver cycle_detection
+	rm -f *.o graph_assignment lp_assignment simplex_solver cycle_detection 5_topological_sort
