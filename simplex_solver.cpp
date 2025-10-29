@@ -70,9 +70,26 @@ public:
     }
     
     void solve() {
-        cout << "Attempting to solve using Simplex Method..." << endl;
-        cout << "This is more complex than expected!" << endl;
+        cout << "Solving using Simplex Method..." << endl;
+        cout << "Initial table:" << endl;
         printTable();
+        
+        cout << "Looking for most negative coefficient..." << endl;
+        double mostNegative = 0;
+        int pivotCol = -1;
+        for (int j = 0; j < cols - 1; j++) {
+            if (table[4][j] < mostNegative) {
+                mostNegative = table[4][j];
+                pivotCol = j;
+            }
+        }
+        
+        if (pivotCol == -1) {
+            cout << "No negative coefficients found - optimal!" << endl;
+            return;
+        }
+        
+        cout << "Most negative is " << mostNegative << " in column " << pivotCol << endl;
     }
 };
 
