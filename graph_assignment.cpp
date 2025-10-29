@@ -5,19 +5,22 @@
 using namespace std;
 
 // Assignment 4 - Graph Algorithm
-// Need to find minimum semesters for course prerequisites
+// Need to find minimum semesters for course prerequisites using DAG
 
 int main() {
     cout << "CS 375 Assignment 4 - Graph Algorithm" << endl;
     
+    // Create graph with 15 courses (cs1 through cs15)
     Graph g(15);
     
-    // Set course names
+    // Set course names from cs1 to cs15
     for (int i = 0; i < 15; i++) {
         g.setCourseName(i, "cs" + to_string(i + 1));
     }
     
-    // Add prerequisites (edges from prerequisite TO course)
+    // Build the prerequisite structure (directed edges from prereq to course)
+    // Note: array index starts at 0, so cs1 = index 0, cs2 = index 1, etc.
+    
     // cs4 requires cs2
     g.addEdge(1, 3); 
     
@@ -63,7 +66,8 @@ int main() {
     g.printGraph();
     g.printPrereqCount();
     
-    // Check for cycles first
+    // Step 1: Check for cycles using DFS with color coding
+    // A cycle means impossible prerequisite structure
     cout << "\n--- Checking for Cycles ---" << endl;
     if (g.hasCycle()) {
         cout << "CYCLE FOUND! This prerequisite structure is impossible." << endl;
@@ -72,7 +76,8 @@ int main() {
         cout << "No cycles found - prerequisite structure is valid." << endl;
     }
     
-    // Try topological sorting
+    // Step 2: Perform topological sorting using Kahn's algorithm
+    // This gives us a valid order to take courses
     cout << "\n--- Testing Topological Sort ---" << endl;
     vector<int> order = g.topSort();
     
@@ -85,6 +90,7 @@ int main() {
     }
     cout << endl;
     
+    // Verify all courses were processed (no cycles)
     if (order.size() != 15) {
         cout << "ERROR: Only processed " << order.size() << " courses! Graph might have cycles." << endl;
         return 1;
@@ -92,6 +98,8 @@ int main() {
         cout << "Success! All 15 courses processed." << endl;
     }
     
+    // Step 3: Calculate minimum semesters using level-based topological sort
+    // This finds the longest path in the DAG
     cout << "\n--- Minimum Semesters Calculation ---" << endl;
     clock_t start = clock();
     int answer = g.calculateMinSemesters();
@@ -99,16 +107,18 @@ int main() {
     
     cout << "\nMINIMUM SEMESTERS NEEDED: " << answer << endl;
     
+    // Show timing (required for assignment)
     double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
     cout << "Running time: " << time << " milliseconds" << endl;
     
-    // Check if graph is bipartite
+    // Step 4: Check if graph is bipartite using BFS coloring
+    // Bipartite means courses can be split into 2 groups with no prereqs within groups
     cout << "\n--- Bipartite Check ---" << endl;
     vector<int> groups;
     if (g.isBipartite(groups)) {
         cout << "Graph is bipartite!" << endl;
         
-        // Show the two groups
+        // Separate courses into the two groups
         vector<int> group0, group1;
         for (int i = 0; i < 15; i++) {
             if (groups[i] == 0) {
@@ -118,6 +128,7 @@ int main() {
             }
         }
         
+        // Display both groups
         cout << "Group 1: ";
         for (int i = 0; i < (int)group0.size(); i++) {
             cout << g.courseNames[group0[i]];
