@@ -1,0 +1,43 @@
+CS 375 Assignment 4 Results
+============================
+
+PART B.1: GRAPH ALGORITHM
+--------------------------
+Problem: Find minimum number of semesters to complete CS curriculum
+
+Result: 5 SEMESTERS
+
+Course Schedule:
+Semester 1: cs1, cs2, cs3
+Semester 2: cs4, cs6, cs12  
+Semester 3: cs5, cs7, cs13, cs14
+Semester 4: cs8, cs9, cs15
+Semester 5: cs10, cs11
+
+Algorithm: Topological sort with level tracking
+Time Complexity: O(V + E)
+Space Complexity: O(V)
+
+PART B.2: LINEAR PROGRAMMING
+----------------------------
+Problem: Minimize cost of dietary drinks X and Y
+
+Result: MINIMUM COST = $0.66
+
+Optimal Solution:
+- Drink X: 3 cups
+- Drink Y: 2 cups
+
+Constraint Verification:
+- Calories: 300 (>= 300) ✓
+- Vitamin A: 48 (>= 36) ✓  
+- Vitamin C: 90 (>= 90) ✓
+
+Algorithm: Corner point method
+Running time: ~0.02 milliseconds
+
+COMPILATION
+-----------
+To build: make all
+To test: make test
+To clean: make clean
