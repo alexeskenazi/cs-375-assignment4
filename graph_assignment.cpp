@@ -68,8 +68,7 @@ int main() {
     g.printGraph();
     g.printPrereqCount();
     
-    // Perform topological sorting - this will detect cycles implicitly
-    cout << "\n--- Performing Topological Sort ---" << endl;
+    cout << "\nTopological Sort:" << endl;
     vector<int> order = g.topSort();
     
     // Check if all courses were processed (cycle detection)
@@ -92,7 +91,7 @@ int main() {
     
     // Calculate minimum semesters using level-based topological sort
     // This finds the longest path in the DAG
-    cout << "\n--- Minimum Semesters Calculation ---" << endl;
+    cout << "\nMinimum Semesters:" << endl;
     clock_t start = clock();
     int answer = g.calculateMinSemesters();
     clock_t end = clock();
@@ -103,40 +102,6 @@ int main() {
     double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
     cout << "Running time: " << time << " milliseconds" << endl;
     
-    // Check if graph is bipartite using BFS coloring
-    // Bipartite means courses can be split into 2 groups with no prereqs within groups
-    cout << "\n--- Bipartite Check ---" << endl;
-    vector<int> groups;
-    if (g.isBipartite(groups)) {
-        cout << "Graph is bipartite!" << endl;
-        
-        // Separate courses into the two groups
-        vector<int> group0, group1;
-        for (int i = 0; i < 15; i++) {
-            if (groups[i] == 0) {
-                group0.push_back(i);
-            } else {
-                group1.push_back(i);
-            }
-        }
-        
-        // Display both groups
-        cout << "Group 1: ";
-        for (int i = 0; i < (int)group0.size(); i++) {
-            cout << g.courseNames[group0[i]];
-            if (i < (int)group0.size() - 1) cout << ", ";
-        }
-        cout << endl;
-        
-        cout << "Group 2: ";
-        for (int i = 0; i < (int)group1.size(); i++) {
-            cout << g.courseNames[group1[i]];
-            if (i < (int)group1.size() - 1) cout << ", ";
-        }
-        cout << endl;
-    } else {
-        cout << "Graph is NOT bipartite." << endl;
-    }
     
     return 0;
 }
