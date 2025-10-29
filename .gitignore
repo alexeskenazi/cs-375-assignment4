@@ -45,3 +45,4 @@ linear_programming
 tmp/
 graph_assignment
 lp_assignment
+simplex_solver
