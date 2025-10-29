@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <ctime>
 
 using namespace std;
@@ -63,6 +64,30 @@ public:
         }
         return false;
     }
+    
+    void bfsTraversal(int startNode) {
+        cout << "BFS traversal starting from node " << (startNode + 1) << ": ";
+        
+        vector<bool> visited(numVertices, false);
+        queue<int> q;
+        
+        visited[startNode] = true;
+        q.push(startNode);
+        
+        while (!q.empty()) {
+            int current = q.front();
+            q.pop();
+            cout << (current + 1) << " ";
+            
+            for (int neighbor : adjList[current]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    q.push(neighbor);
+                }
+            }
+        }
+        cout << endl;
+    }
 };
 
 int main() {
@@ -109,6 +134,27 @@ int main() {
     cout << "Graph (ii) contains cycle: " << (hasCycle2 ? "YES" : "NO") << endl;
     double time2 = 1000.0 * (end - start) / CLOCKS_PER_SEC;
     cout << "Running time: " << time2 << " milliseconds" << endl;
+    
+    cout << "\n--- Part (c): BFS Traversal ---" << endl;
+    cout << "Building the directed graph from part (c)..." << endl;
+    
+    CycleDetector directedGraph(7);
+    
+    directedGraph.addEdge(0, 1);  // 1-2
+    directedGraph.addEdge(0, 4);  // 1-5
+    directedGraph.addEdge(1, 2);  // 2-3
+    directedGraph.addEdge(1, 3);  // 2-4
+    directedGraph.addEdge(2, 6);  // 3-7
+    directedGraph.addEdge(3, 5);  // 4-6
+    directedGraph.addEdge(3, 6);  // 4-7
+    directedGraph.addEdge(4, 3);  // 5-4
+    directedGraph.addEdge(4, 5);  // 5-6
+    directedGraph.addEdge(5, 6);  // 6-7
+    
+    cout << "Graph structure:" << endl;
+    directedGraph.printGraph();
+    
+    directedGraph.bfsTraversal(0);
     
     return 0;
 }
