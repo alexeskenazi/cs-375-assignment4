@@ -47,3 +47,6 @@ graph_assignment
 lp_assignment
 simplex_solver
 cycle_detection
+B1_graph_assignment
+2b_cycle_detection
+B2_lp_assignment

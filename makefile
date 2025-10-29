@@ -1,19 +1,19 @@
 CXX = g++
 CXXFLAGS = -Wall -Wsign-compare -g -std=c++11
 
-all: graph_assignment lp_assignment simplex_solver cycle_detection 5_topological_sort
+all: B1_graph_assignment B2_lp_assignment simplex_solver 2b_cycle_detection 5_topological_sort
 
-graph_assignment: graph_assignment.o
-	$(CXX) $(CXXFLAGS) graph_assignment.o -o graph_assignment
+B1_graph_assignment: B1_graph_assignment.o
+	$(CXX) $(CXXFLAGS) B1_graph_assignment.o -o B1_graph_assignment
 
-graph_assignment.o: graph_assignment.cpp
-	$(CXX) $(CXXFLAGS) -c graph_assignment.cpp
+B1_graph_assignment.o: B1_graph_assignment.cpp
+	$(CXX) $(CXXFLAGS) -c B1_graph_assignment.cpp
 
-lp_assignment: lp_assignment.o
-	$(CXX) $(CXXFLAGS) lp_assignment.o -o lp_assignment
+B2_lp_assignment: B2_lp_assignment.o
+	$(CXX) $(CXXFLAGS) B2_lp_assignment.o -o B2_lp_assignment
 
-lp_assignment.o: lp_assignment.cpp
-	$(CXX) $(CXXFLAGS) -c lp_assignment.cpp
+B2_lp_assignment.o: B2_lp_assignment.cpp
+	$(CXX) $(CXXFLAGS) -c B2_lp_assignment.cpp
 
 simplex_solver: simplex_solver.o
 	$(CXX) $(CXXFLAGS) simplex_solver.o -o simplex_solver
@@ -21,11 +21,11 @@ simplex_solver: simplex_solver.o
 simplex_solver.o: simplex_solver.cpp
 	$(CXX) $(CXXFLAGS) -c simplex_solver.cpp
 
-cycle_detection: cycle_detection.o
-	$(CXX) $(CXXFLAGS) cycle_detection.o -o cycle_detection
+2b_cycle_detection: 2b_cycle_detection.o
+	$(CXX) $(CXXFLAGS) 2b_cycle_detection.o -o 2b_cycle_detection
 
-cycle_detection.o: cycle_detection.cpp
-	$(CXX) $(CXXFLAGS) -c cycle_detection.cpp
+2b_cycle_detection.o: 2b_cycle_detection.cpp
+	$(CXX) $(CXXFLAGS) -c 2b_cycle_detection.cpp
 
 5_topological_sort: 5_topological_sort.o
 	$(CXX) $(CXXFLAGS) 5_topological_sort.o -o 5_topological_sort
@@ -33,34 +33,34 @@ cycle_detection.o: cycle_detection.cpp
 5_topological_sort.o: 5_topological_sort.cpp
 	$(CXX) $(CXXFLAGS) -c 5_topological_sort.cpp
 
-test_graph: graph_assignment
-	./graph_assignment
+test_graph: B1_graph_assignment
+	./B1_graph_assignment
 
-test_lp: lp_assignment
-	./lp_assignment
+test_lp: B2_lp_assignment
+	./B2_lp_assignment
 
 test_simplex: simplex_solver
 	./simplex_solver
 
-test_cycle: cycle_detection
-	./cycle_detection
+test_cycle: 2b_cycle_detection
+	./2b_cycle_detection
 
 test_topo: 5_topological_sort
 	./5_topological_sort
 
-test: graph_assignment lp_assignment simplex_solver cycle_detection 5_topological_sort
-	./graph_assignment
-	./lp_assignment
+test: B1_graph_assignment B2_lp_assignment simplex_solver 2b_cycle_detection 5_topological_sort
+	./B1_graph_assignment
+	./B2_lp_assignment
 	./simplex_solver
-	./cycle_detection
+	./2b_cycle_detection
 	./5_topological_sort
 
 run: clean test
-	./graph_assignment
-	./lp_assignment
+	./B1_graph_assignment
+	./B2_lp_assignment
 	./simplex_solver
-	./cycle_detection
+	./2b_cycle_detection
 	./5_topological_sort
 
 clean:
-	rm -f *.o graph_assignment lp_assignment simplex_solver cycle_detection 5_topological_sort
+	rm -f *.o B1_graph_assignment B2_lp_assignment simplex_solver 2b_cycle_detection 5_topological_sort
