@@ -63,6 +63,7 @@ int main() {
     // Test cycle detection by adding a cycle temporarily
     // g.addEdge(14, 13); // This would create cs14 -> cs15 -> cs14 cycle 
     
+    // Display the graph structure and prerequisite counts
     g.printGraph();
     g.printPrereqCount();
     
