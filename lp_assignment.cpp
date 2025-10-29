@@ -116,26 +116,7 @@ int main() {
     DietProblem problem;
     problem.printProblem();
     
-    // Step 1: Test some sample points for feasibility
-    cout << "\n--- Testing Sample Points ---" << endl;
-    
-    vector<pair<double, double>> testPoints = {
-        {0, 0}, {5, 5}, {10, 0}, {0, 10}, {3, 2}
-    };
-    
-    for (auto point : testPoints) {
-        double x = point.first, y = point.second;
-        bool feasible = problem.isFeasible(x, y);
-        cout << "Point (" << x << ", " << y << "): ";
-        if (feasible) {
-            cout << "Feasible, cost = $" << problem.getCost(x, y) << endl;
-        } else {
-            cout << "Infeasible (violates constraints)" << endl;
-        }
-    }
-    
-    // Step 2: Solve the LP problem using corner point method
-    cout << "\n--- Solving LP Problem ---" << endl;
+    cout << "\nSolving:" << endl;
     
     clock_t start = clock();
     pair<double, double> solution = problem.solveByCornerPoints();
