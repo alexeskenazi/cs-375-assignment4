@@ -37,7 +37,6 @@ public:
         cout << "  X, Y >= 0" << endl;
     }
     
-    // Check if a solution is feasible
     bool isFeasible(double x, double y) {
         if (x < 0 || y < 0) return false;
         if (drinkX_calories * x + drinkY_calories * y < min_calories) return false;
@@ -49,6 +48,59 @@ public:
     double getCost(double x, double y) {
         return drinkX_cost * x + drinkY_cost * y;
     }
+    
+   
+    pair<double, double> solveByCornerPoints() {
+        cout << "Trying corner point method instead..." << endl;
+        
+        vector<pair<double, double>> corners;
+        double bestCost = 1e9;
+        pair<double, double> bestSolution = {0, 0};
+        
+        // Need to find intersections of constraint lines
+        // Constraint 1: 60X + 60Y >= 300 → X + Y >= 5
+        // Constraint 2: 12X + 6Y >= 36 → 2X + Y >= 6  
+        // Constraint 3: 10X + 30Y >= 90 → X + 3Y >= 9
+        
+        // Try intersection of constraint lines
+        // Line 1 and Line 2: X + Y = 5, 2X + Y = 6
+        // Solve: X = 1, Y = 4
+        corners.push_back({1, 4});
+        
+        // Line 1 and Line 3: X + Y = 5, X + 3Y = 9  
+        // Solve: Y = 2, X = 3
+        corners.push_back({3, 2});
+        
+        // Line 2 and Line 3: 2X + Y = 6, X + 3Y = 9
+        // From 2X + Y = 6: Y = 6 - 2X
+        // Substitute: X + 3(6 - 2X) = 9 → X + 18 - 6X = 9 → -5X = -9 → X = 1.8
+        // Then Y = 6 - 2(1.8) = 2.4
+        // Actually let me double-check this math...
+        corners.push_back({2.4, 1.2}); // Recalculated: X=2.4, Y=1.2
+        
+        // Check axis intersections too
+        corners.push_back({0, 6});  // Y-axis intersection for worst case
+        corners.push_back({9, 0});  // X-axis intersection for worst case
+        
+        cout << "Checking corner points:" << endl;
+        for (auto corner : corners) {
+            double x = corner.first, y = corner.second;
+            if (isFeasible(x, y)) {
+                double cost = getCost(x, y);
+                cout << "(" << x << ", " << y << ") - Cost: $" << cost;
+                if (cost < bestCost) {
+                    bestCost = cost;
+                    bestSolution = corner;
+                    cout << " <- Best so far!";
+                }
+                cout << endl;
+            } else {
+                cout << "(" << x << ", " << y << ") - Not feasible" << endl;
+            }
+        }
+        
+        return bestSolution;
+    }
 };
 
 int main() {
@@ -59,7 +111,6 @@ int main() {
     
     cout << "\n--- Testing Feasibility ---" << endl;
     
-    // Try some test points
     vector<pair<double, double>> testPoints = {
         {0, 0}, {5, 5}, {10, 0}, {0, 10}, {3, 2}
     };
@@ -75,7 +126,26 @@ int main() {
         }
     }
     
-    cout << "\nNext step: Need to implement optimization algorithm..." << endl;
+    cout << "\n--- Attempting to Solve ---" << endl;
+    
+    clock_t start = clock();
+    pair<double, double> solution = problem.solveByCornerPoints();
+    clock_t end = clock();
+    
+    double x = solution.first, y = solution.second;
+    double totalCost = problem.getCost(x, y);
+    
+    cout << "\n=== SOLUTION ===" << endl;
+    cout << "Optimal solution: X = " << x << ", Y = " << y << endl;
+    cout << "Minimum cost: $" << totalCost << endl;
+    
+    cout << "\nConstraint verification:" << endl;
+    cout << "Calories: " << (60*x + 60*y) << " >= 300? " << (60*x + 60*y >= 300 ? "YES" : "NO") << endl;
+    cout << "Vitamin A: " << (12*x + 6*y) << " >= 36? " << (12*x + 6*y >= 36 ? "YES" : "NO") << endl;
+    cout << "Vitamin C: " << (10*x + 30*y) << " >= 90? " << (10*x + 30*y >= 90 ? "YES" : "NO") << endl;
+    
+    double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+    cout << "\nRunning time: " << time << " milliseconds" << endl;
     
     return 0;
 }
