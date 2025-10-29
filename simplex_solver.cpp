@@ -195,8 +195,15 @@ int main() {
     cout << "Simplex Algorithm for Question #9" << endl;
     cout << "==================================" << endl;
     
+    clock_t start = clock();
+    
     SimplexSolver solver;
     solver.solve();
+    
+    clock_t end = clock();
+    double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+    
+    cout << "\nRunning time: " << time << " milliseconds" << endl;
     
     return 0;
 }
