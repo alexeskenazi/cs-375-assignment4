@@ -90,6 +90,24 @@ public:
         }
         
         cout << "Most negative is " << mostNegative << " in column " << pivotCol << endl;
+        
+        cout << "Doing ratio test..." << endl;
+        double minRatio = 999999;
+        int pivotRow = -1;
+        for (int i = 0; i < 4; i++) {
+            if (table[i][pivotCol] > 0) {
+                double ratio = table[i][7] / table[i][pivotCol];
+                cout << "Row " << i << ": " << table[i][7] << "/" << table[i][pivotCol] 
+                     << " = " << ratio << endl;
+                if (ratio < minRatio) {
+                    minRatio = ratio;
+                    pivotRow = i;
+                }
+            }
+        }
+        
+        cout << "Pivot at row " << pivotRow << ", col " << pivotCol << endl;
+        cout << "This is where I get stuck - need to do row operations..." << endl;
     }
 };
 
