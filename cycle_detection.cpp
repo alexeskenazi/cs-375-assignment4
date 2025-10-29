@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <ctime>
 
 using namespace std;
 
@@ -32,6 +33,36 @@ public:
         }
         cout << endl;
     }
+    
+    bool dfsHasCycle(int node, vector<bool>& visited, int parent) {
+        visited[node] = true;
+        
+        for (int neighbor : adjList[node]) {
+            if (!visited[neighbor]) {
+                if (dfsHasCycle(neighbor, visited, node)) {
+                    return true;
+                }
+            }
+            else if (neighbor != parent) {
+                cout << "Cycle found: edge (" << node << ", " << neighbor << ")" << endl;
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    bool hasCycle() {
+        vector<bool> visited(numVertices, false);
+        
+        for (int i = 0; i < numVertices; i++) {
+            if (!visited[i]) {
+                if (dfsHasCycle(i, visited, -1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 };
 
 int main() {
@@ -51,6 +82,14 @@ int main() {
     
     graph1.printGraph();
     
+    clock_t start = clock();
+    bool hasCycle1 = graph1.hasCycle();
+    clock_t end = clock();
+    
+    cout << "Graph (i) contains cycle: " << (hasCycle1 ? "YES" : "NO") << endl;
+    double time1 = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+    cout << "Running time: " << time1 << " milliseconds" << endl;
+    
     cout << "\n--- Testing Graph (ii) ---" << endl;
     CycleDetector graph2(4);
     
@@ -62,6 +101,14 @@ int main() {
     graph2.addEdge(1, 2);
     
     graph2.printGraph();
+    
+    start = clock();
+    bool hasCycle2 = graph2.hasCycle();
+    end = clock();
+    
+    cout << "Graph (ii) contains cycle: " << (hasCycle2 ? "YES" : "NO") << endl;
+    double time2 = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+    cout << "Running time: " << time2 << " milliseconds" << endl;
     
     return 0;
 }
