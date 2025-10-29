@@ -72,11 +72,10 @@ public:
         corners.push_back({3, 2});
         
         // Line 2 and Line 3: 2X + Y = 6, X + 3Y = 9
-        // From 2X + Y = 6: Y = 6 - 2X
-        // Substitute: X + 3(6 - 2X) = 9 → X + 18 - 6X = 9 → -5X = -9 → X = 1.8
-        // Then Y = 6 - 2(1.8) = 2.4
-        // Actually let me double-check this math...
-        corners.push_back({2.4, 1.2}); // Recalculated: X=2.4, Y=1.2
+        // From X + 3Y = 9: X = 9 - 3Y
+        // Substitute into 2X + Y = 6: 2(9 - 3Y) + Y = 6
+        // 18 - 6Y + Y = 6 → 18 - 5Y = 6 → Y = 2.4, X = 1.8
+        corners.push_back({1.8, 2.4}); // Fixed calculation
         
         // Check axis intersections too
         corners.push_back({0, 6});  // Y-axis intersection for worst case
@@ -135,14 +134,21 @@ int main() {
     double x = solution.first, y = solution.second;
     double totalCost = problem.getCost(x, y);
     
-    cout << "\n=== SOLUTION ===" << endl;
-    cout << "Optimal solution: X = " << x << ", Y = " << y << endl;
+    cout << "\n=== OPTIMAL SOLUTION ===" << endl;
+    cout << "Number of cups of drink X: " << x << endl;
+    cout << "Number of cups of drink Y: " << y << endl;
     cout << "Minimum cost: $" << totalCost << endl;
     
-    cout << "\nConstraint verification:" << endl;
-    cout << "Calories: " << (60*x + 60*y) << " >= 300? " << (60*x + 60*y >= 300 ? "YES" : "NO") << endl;
-    cout << "Vitamin A: " << (12*x + 6*y) << " >= 36? " << (12*x + 6*y >= 36 ? "YES" : "NO") << endl;
-    cout << "Vitamin C: " << (10*x + 30*y) << " >= 90? " << (10*x + 30*y >= 90 ? "YES" : "NO") << endl;
+    cout << "\nNutrient totals provided:" << endl;
+    double calories = 60*x + 60*y;
+    double vitA = 12*x + 6*y;  
+    double vitC = 10*x + 30*y;
+    
+    cout << "Calories: " << calories << " (required: >= 300)" << endl;
+    cout << "Vitamin A: " << vitA << " (required: >= 36)" << endl;
+    cout << "Vitamin C: " << vitC << " (required: >= 90)" << endl;
+    
+    cout << "\nAll constraints satisfied: " << (calories >= 300 && vitA >= 36 && vitC >= 90 ? "YES" : "NO") << endl;
     
     double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
     cout << "\nRunning time: " << time << " milliseconds" << endl;
