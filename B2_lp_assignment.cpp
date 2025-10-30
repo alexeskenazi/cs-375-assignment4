@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 #include <vector>
 #include <ctime>
 
@@ -11,22 +14,80 @@ using namespace std;
 class DietProblem {
 public:
     // Cost per cup (objective function coefficients)
-    double drinkX_cost = 0.12;
-    double drinkY_cost = 0.15;
+    double drinkX_cost;
+    double drinkY_cost;
     
     // Nutritional content per cup (constraint coefficients)
-    double drinkX_calories = 60;
-    double drinkX_vitA = 12;
-    double drinkX_vitC = 10;
+    double drinkX_calories;
+    double drinkX_vitA;
+    double drinkX_vitC;
     
-    double drinkY_calories = 60;
-    double drinkY_vitA = 6;
-    double drinkY_vitC = 30;
+    double drinkY_calories;
+    double drinkY_vitA;
+    double drinkY_vitC;
     
     // Daily nutritional requirements (RHS values)
-    double min_calories = 300;
-    double min_vitA = 36;
-    double min_vitC = 90;
+    double min_calories;
+    double min_vitA;
+    double min_vitC;
+    
+    // Read problem data from input file
+    void readFromFile(string filename) {
+        ifstream file(filename);
+        if (!file.is_open()) {
+            cout << "Error: Cannot open input file " << filename << endl;
+            return;
+        }
+        
+        string line;
+        bool readingCoeffs = false;
+        bool readingConstraints = false;
+        
+        while (getline(file, line)) {
+            if (line.find("object function coefficients") != string::npos) {
+                readingCoeffs = true;
+                continue;
+            }
+            if (line.find("constraint coefficients") != string::npos) {
+                readingConstraints = true;
+                readingCoeffs = false;
+                continue;
+            }
+            
+            if (readingCoeffs && line.length() > 0 && line[0] != '/') {
+                istringstream iss(line);
+                iss >> drinkX_cost >> drinkY_cost;
+            }
+            
+            if (readingConstraints && line.length() > 0 && line[0] != '/') {
+                istringstream iss(line);
+                vector<double> values;
+                double val;
+                while (iss >> val) {
+                    values.push_back(val);
+                }
+                
+                if (values.size() == 3) {
+                    static int constraintNum = 0;
+                    if (constraintNum == 0) {
+                        drinkX_calories = values[0];
+                        drinkY_calories = values[1];
+                        min_calories = values[2];
+                    } else if (constraintNum == 1) {
+                        drinkX_vitA = values[0];
+                        drinkY_vitA = values[1];
+                        min_vitA = values[2];
+                    } else if (constraintNum == 2) {
+                        drinkX_vitC = values[0];
+                        drinkY_vitC = values[1];
+                        min_vitC = values[2];
+                    }
+                    constraintNum++;
+                }
+            }
+        }
+        file.close();
+    }
     
     // Display the linear programming problem formulation
     void printProblem() {
@@ -110,10 +171,27 @@ public:
     }
 };
 
-int main() {
+int main(int argc, char* argv[]) {
     cout << "CS 375 Assignment 4 - Linear Programming" << endl;
     
+    // Set default file names
+    string inputFileName = "B2_input.txt";
+    string outputFileName = "B2_output.txt";
+    
+    // Parse command line arguments
+    if (argc == 2) {
+        inputFileName = argv[1];
+    } else if (argc == 3) {
+        inputFileName = argv[1];
+        outputFileName = argv[2];
+    }
+    
     DietProblem problem;
+    problem.readFromFile(inputFileName);
+    
+    // Open output file
+    ofstream outputFile(outputFileName);
+    
     problem.printProblem();
     
     cout << "\nSolving:" << endl;
@@ -125,24 +203,43 @@ int main() {
     double x = solution.first, y = solution.second;
     double totalCost = problem.getCost(x, y);
     
+    // Output to console
     cout << "\n=== OPTIMAL SOLUTION ===" << endl;
     cout << "Cups of drink X: " << x << endl;
     cout << "Cups of drink Y: " << y << endl;
     cout << "Minimum cost: $" << totalCost << endl;
-    
-    // Step 3: Verify solution satisfies all constraints
-    cout << "\nConstraint verification:" << endl;
-    double calories = 60*x + 60*y;
-    double vitA = 12*x + 6*y;  
-    double vitC = 10*x + 30*y;
-    
-    cout << "Calories: " << calories << " >= 300? " << (calories >= 300 ? "YES" : "NO") << endl;
-    cout << "Vitamin A: " << vitA << " >= 36? " << (vitA >= 36 ? "YES" : "NO") << endl;
-    cout << "Vitamin C: " << vitC << " >= 90? " << (vitC >= 90 ? "YES" : "NO") << endl;
-    
-    cout << "\nAll constraints satisfied: " << (calories >= 300 && vitA >= 36 && vitC >= 90 ? "YES" : "NO") << endl;
-    
     double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+    
+    // Output to file in sample format
+    outputFile << "//** Print out the minimum cost, and number cups of drink X and number of cups of drink Y **/" << endl;
+    outputFile << "Minimum cost: " << totalCost << endl;
+    outputFile << "# (drink X): " << x << endl;
+    outputFile << "# (drink Y): " << y << endl;
+    outputFile << endl;
+    
+    outputFile << "//** Print out the maximum profit, and number of items x1, x2, x3 **/" << endl;
+    outputFile << "Maximum profit: N/A" << endl;
+    outputFile << "# (x1): N/A" << endl;
+    outputFile << "# (x2): N/A" << endl;
+    outputFile << "# (x3): N/A" << endl;
+    outputFile << endl;
+    
+    outputFile << "//** print out running time **/" << endl;
+    outputFile << time << " milliseconds" << endl;
+    
+    outputFile.close();
+    
+    // Console verification
+    cout << "\nConstraint verification:" << endl;
+    double calories = problem.drinkX_calories*x + problem.drinkY_calories*y;
+    double vitA = problem.drinkX_vitA*x + problem.drinkY_vitA*y;  
+    double vitC = problem.drinkX_vitC*x + problem.drinkY_vitC*y;
+    
+    cout << "Calories: " << calories << " >= " << problem.min_calories << "? " << (calories >= problem.min_calories ? "YES" : "NO") << endl;
+    cout << "Vitamin A: " << vitA << " >= " << problem.min_vitA << "? " << (vitA >= problem.min_vitA ? "YES" : "NO") << endl;
+    cout << "Vitamin C: " << vitC << " >= " << problem.min_vitC << "? " << (vitC >= problem.min_vitC ? "YES" : "NO") << endl;
+    
+    cout << "\nAll constraints satisfied: " << (calories >= problem.min_calories && vitA >= problem.min_vitA && vitC >= problem.min_vitC ? "YES" : "NO") << endl;
     cout << "\nRunning time: " << time << " milliseconds" << endl;
     
     return 0;

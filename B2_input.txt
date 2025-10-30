@@ -1,0 +1,10 @@
+//** Linear Programming with n decision variables and m constraints, with <=, =, or >=  **//
+<=
+
+//* object function coefficients Cj *//
+0.12 0.15
+
+//* constraint coefficients Aij and constraint level Bi  *//
+60 60 300
+12 6 36
+10 30 90
