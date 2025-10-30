@@ -48,4 +48,11 @@ make clean
 ## Documentation
 
 - [Assignment Prompt](prompt.md) - Original assignment requirements and problems
-- [Algorithm Guide](ALGORITHM_GUIDE.md) - Detailed algorithm explanations and analysis
+- [Complete Algorithm Guide](ALGORITHM_GUIDE.md) - Comprehensive overview of all algorithms
+
+### Individual Algorithm Guides
+- [B1 Graph Algorithm](B1_graph_algo.md) - Course prerequisite scheduling
+- [B2 Linear Programming](B2_lp_algo.md) - Diet optimization problem
+- [B3 Simplex Algorithm](B3_simplex_algo.md) - 3-variable LP maximization
+- [2b Cycle Detection](2b_cycle_algo.md) - Undirected graph cycle detection
+- [5 Topological Sort](5_topological_algo.md) - DFS-based topological ordering
