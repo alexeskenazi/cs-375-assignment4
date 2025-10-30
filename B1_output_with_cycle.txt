@@ -1,0 +1,26 @@
+//** Print out a cycle of a graph **//
+//** For example, a sequence of nodes forming a cycle (if there is no cycle, print out "No Cycle") **//
+
+cs1, cs3, cs2, cs1
+
+//** Show sorted nodes by topological sorting algorithm **//
+Topological sorted nodes in sequence
+Cannot perform topological sort - cycle exists
+
+//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **//
+Edge (cs3, cs1)  Type (B)
+Edge (cs2, cs3)  Type (T)
+Edge (cs1, cs2)  Type (T)
+Edge (cs5, cs6)  Type (T)
+Edge (cs4, cs5)  Type (T)
+
+//** minimum number of semesters **//
+3
+
+//** Bipartite (if No) **//
+
+V1 = 0
+V2 = 0
+
+//** print out running time **//
+0.228 milliseconds
