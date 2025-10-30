@@ -82,19 +82,11 @@ int main(int argc, char* argv[]) {
     // 1. Cycle detection
     cout << "//** Print out a cycle of a graph **//\n//** For example, a sequence of nodes forming a cycle (if there is no cycle, print out \"No Cycle\") **//\n" << endl;
     outputFile << "//** Print out a cycle of a graph **//\n//** For example, a sequence of nodes forming a cycle (if there is no cycle, print out \"No Cycle\") **//\n" << endl;
-    vector<int> order = g.topSort();
     
-    // Filter to only show courses that are actually used
-    vector<int> usedOrder;
-    for (int course : order) {
-        if (course <= maxCourse) {
-            usedOrder.push_back(course);
-        }
-    }
-    
-    if ((int)usedOrder.size() != numCoursesUsed) {
-        cout << "Cycle detected in prerequisite structure" << endl;
-        outputFile << "Cycle detected in prerequisite structure" << endl;
+    string cycle = g.findCycle();
+    if (!cycle.empty()) {
+        cout << cycle << endl;
+        outputFile << cycle << endl;
     } else {
         cout << "No Cycle" << endl;
         outputFile << "No Cycle" << endl;
@@ -105,17 +97,34 @@ int main(int argc, char* argv[]) {
     // 2. Topological sorting
     cout << "//** Show sorted nodes by topological sorting algorithm **//\nTopological sorted nodes in sequence" << endl;
     outputFile << "//** Show sorted nodes by topological sorting algorithm **//\nTopological sorted nodes in sequence" << endl;
-    if (usedOrder.size() > 0) {
-        for (int i = 0; i < (int)usedOrder.size(); i++) {
-            cout << g.courseNames[usedOrder[i]];
-            outputFile << g.courseNames[usedOrder[i]];
-            if (i < (int)usedOrder.size() - 1) {
-                cout << ", ";
-                outputFile << ", ";
+    
+    // Only show topological sort if no cycle exists
+    if (cycle.empty()) {
+        vector<int> order = g.topSort();
+        
+        // Filter to only show courses that are actually used
+        vector<int> usedOrder;
+        for (int course : order) {
+            if (course <= maxCourse) {
+                usedOrder.push_back(course);
             }
         }
-        cout << endl;
-        outputFile << endl;
+        
+        if (usedOrder.size() > 0) {
+            for (int i = 0; i < (int)usedOrder.size(); i++) {
+                cout << g.courseNames[usedOrder[i]];
+                outputFile << g.courseNames[usedOrder[i]];
+                if (i < (int)usedOrder.size() - 1) {
+                    cout << ", ";
+                    outputFile << ", ";
+                }
+            }
+            cout << endl;
+            outputFile << endl;
+        }
+    } else {
+        cout << "Cannot perform topological sort - cycle exists" << endl;
+        outputFile << "Cannot perform topological sort - cycle exists" << endl;
     }
     cout << endl;
     outputFile << endl;

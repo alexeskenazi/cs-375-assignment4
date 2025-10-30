@@ -158,6 +158,60 @@ public:
         return false;
     }
     
+    // Find and return a cycle if one exists
+    string findCycle() {
+        vector<int> color(numCourses, 0);
+        vector<int> parent(numCourses, -1);
+        
+        for (int i = 0; i < numCourses; i++) {
+            if (color[i] == 0) {
+                string cycle = findCycleDFS(i, color, parent);
+                if (!cycle.empty()) {
+                    return cycle;
+                }
+            }
+        }
+        return "";
+    }
+    
+    string findCycleDFS(int node, vector<int>& color, vector<int>& parent) {
+        color[node] = 1; // gray
+        
+        for (int neighbor : adj[node]) {
+            if (color[neighbor] == 1) {
+                // Found back edge - construct cycle starting from the back edge target
+                vector<int> cyclePath;
+                cyclePath.push_back(neighbor);
+                int curr = node;
+                while (curr != neighbor && curr != -1) {
+                    cyclePath.push_back(curr);
+                    curr = parent[curr];
+                }
+                cyclePath.push_back(neighbor); // Complete the cycle
+                
+                // Build cycle string
+                string cycle = "";
+                for (int i = 0; i < (int)cyclePath.size(); i++) {
+                    cycle += courseNames[cyclePath[i]];
+                    if (i < (int)cyclePath.size() - 1) {
+                        cycle += ", ";
+                    }
+                }
+                return cycle;
+            }
+            if (color[neighbor] == 0) {
+                parent[neighbor] = node;
+                string cycle = findCycleDFS(neighbor, color, parent);
+                if (!cycle.empty()) {
+                    return cycle;
+                }
+            }
+        }
+        
+        color[node] = 2; // black
+        return "";
+    }
+    
     // Classify edges using DFS
     void classifyEdges(vector<string>& edgeTypes) {
         vector<int> color(numCourses, 0); // 0=white, 1=gray, 2=black

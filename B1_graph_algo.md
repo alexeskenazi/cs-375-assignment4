@@ -15,10 +15,24 @@ Find the minimum number of semesters needed to complete all 15 CS courses given 
   4. Add newly available courses to queue
   5. Continue until all courses processed
 
-### **Implicit Cycle Detection**
-- **Purpose**: Verify prerequisite structure is feasible (no circular dependencies)
-- **Method**: Topological sort inherently detects cycles
-- **Logic**: If topological sort can't process all courses, cycles exist
+### **Cycle Detection using DFS**
+- **Purpose**: Detect circular dependencies in prerequisite structure and show actual cycle
+- **Method**: Depth-First Search with color coding and parent tracking
+- **Algorithm Steps**:
+  1. Use 3-color DFS: White (unvisited), Gray (visiting), Black (finished)
+  2. Track parent relationships during traversal
+  3. When back edge found (Gray → Gray), reconstruct cycle path
+  4. Return actual cycle sequence or "No Cycle"
+- **Time Complexity**: O(V + E)
+
+### **Edge Classification using DFS**
+- **Purpose**: Classify all edges based on DFS traversal order
+- **Edge Types**:
+  - **Tree (T)**: Edges in DFS spanning tree
+  - **Back (B)**: Point to ancestor in DFS tree (indicate cycles)
+  - **Forward (F)**: Point to descendant (non-tree edge)
+  - **Cross (C)**: Point between different subtrees
+- **Algorithm**: DFS with discovery/finish times for classification
 
 ### **Minimum Semester Calculation**
 - **Purpose**: Find the longest path in the DAG (critical path)
@@ -28,9 +42,19 @@ Find the minimum number of semesters needed to complete all 15 CS courses given 
   3. Return maximum semester among all courses
 
 ## Results
+
+### **Default Input (B1_input.txt) - No Cycles**
+- **Cycle Detection**: "No Cycle"
+- **Topological Sort**: cs1, cs2, cs3, cs4, cs6, cs12, cs5, cs7, cs13, cs14, cs8, cs9, cs15, cs11, cs10
+- **Edge Types**: Mostly Tree (T) and Cross (C) edges
 - **Minimum Semesters**: 5
-- **Time Complexity**: O(V + E)
-- **Running Time**: ~0.16 ms
+- **Running Time**: ~0.29 ms
+
+### **Test Input (B1_input_with_cycle.txt) - With Cycles**
+- **Cycle Detection**: "cs1, cs3, cs2, cs1" (shows actual cycle)
+- **Topological Sort**: "Cannot perform topological sort - cycle exists"
+- **Edge Types**: Contains Back (B) edge indicating cycle
+- **Time Complexity**: O(V + E) for all algorithms
 
 ## Usage
 ```bash
