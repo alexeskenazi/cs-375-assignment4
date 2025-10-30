@@ -16,7 +16,7 @@ The CS Department requires fifteen one-semester courses with the prerequisites s
 
 cs1
 
-cs2 
+cs2
 
 cs3
 
@@ -44,7 +44,6 @@ cs14 requires cs4 and cs6
 
 cs15 requires cs14
 
-
 Your task is to determine the minimum number of semesters needed to finish the degree.
 
 > Hint: Represent the courses and their prerequisites as a DAG. Use an appropriate data structure to represent the graph.
@@ -68,22 +67,26 @@ Design and implement a linear programming algorithm to solve the following minim
 The liquid portion of a diet is to provide at least 300 calories, 36 units of vitamin A, and 90 units of vitamin C daily.
 
 A cup of dietary drink X provides:
+
 - 60 calories  
 - 12 units of vitamin A  
 - 10 units of vitamin C  
 
 A cup of dietary drink Y provides:
+
 - 60 calories  
 - 6 units of vitamin A  
 - 30 units of vitamin C  
 
 Now, suppose that:
+
 - Drink X costs $0.12 per cup  
 - Drink Y costs $0.15 per cup  
 
 How many cups of each drink should be consumed each day to minimize the cost and still meet the stated daily requirements?
 
 Print out:
+
 - The minimum cost  
 - The number of cups of drink X  
 - The number of cups of drink Y  
@@ -96,5 +99,17 @@ Print out:
 To answer the Question #9 (Part A), implement the Simplex Algorithm and display the results by your program, and print out the running time.
 
 ![Question number 9](B3_9_image.png "Question #9")
+
+---
+
+Question 2b:
+
+![Question number 2b](2b_prompt_image.png "Question #2b")
+
+---
+
+Question 5:
+
+![Question number 5](5_prompt_image.png "Question #5")
 
 ---
