@@ -4,7 +4,7 @@
 This assignment implements multiple algorithmic solutions:
 1. **Graph Algorithm**: Part B.1 - Course prerequisite scheduling using DAG algorithms
 2. **Linear Programming**: Part B.2 - Diet optimization using corner point method
-3. **Simplex Algorithm**: 3-variable LP maximization (extra credit)
+3. **Simplex Algorithm**: Part B.3 - 3-variable LP maximization (extra credit)
 4. **Cycle Detection**: Problem 2b - undirected graph cycle detection with BFS traversal
 5. **Topological Sort**: DFS-based topological ordering with edge classification
 
