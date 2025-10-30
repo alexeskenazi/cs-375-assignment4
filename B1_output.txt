@@ -15,4 +15,4 @@ V1 = 0
 V2 = 0
 
 //** print out running time **/
-0.141 milliseconds
+0.16 milliseconds

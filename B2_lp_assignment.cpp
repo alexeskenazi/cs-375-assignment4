@@ -115,37 +115,18 @@ public:
     }
     
    
-    // Solve using corner point method (fundamental theorem of LP)
-    // Optimal solution occurs at a vertex of the feasible region
+    // Solve by checking corner points
     pair<double, double> solveByCornerPoints() {
         cout << "Using corner point method to solve LP..." << endl;
         
         vector<pair<double, double>> corners;
-        double bestCost = 1e9;
+        double bestCost = 999999;
         pair<double, double> bestSolution = {0, 0};
         
-        // Convert constraints to standard form for intersection calculations
-        // Constraint 1: 60X + 60Y >= 300 → X + Y >= 5 (simplified by dividing by 60)
-        // Constraint 2: 12X + 6Y >= 36 → 2X + Y >= 6 (simplified by dividing by 6)
-        // Constraint 3: 10X + 30Y >= 90 → X + 3Y >= 9 (simplified by dividing by 10)
-        
-        // Find intersection points of constraint boundary lines
-        // These form the vertices of the feasible region
-        
-        // Intersection 1: Lines X + Y = 5 and 2X + Y = 6
-        // Subtract: X = 1, substitute back: Y = 4
+        // Check some corner points
         corners.push_back({1, 4});
-        
-        // Intersection 2: Lines X + Y = 5 and X + 3Y = 9
-        // Subtract: 2Y = 4, so Y = 2, X = 3
-        corners.push_back({3, 2});
-        
-        // Intersection 3: Lines 2X + Y = 6 and X + 3Y = 9
-        // From second equation: X = 9 - 3Y
-        // Substitute: 2(9 - 3Y) + Y = 6 → 18 - 6Y + Y = 6 → Y = 2.4, X = 1.8
+        corners.push_back({3, 2}); 
         corners.push_back({1.8, 2.4});
-        
-        // Also check boundary intersections with axes
         corners.push_back({0, 6});
         corners.push_back({9, 0});
         

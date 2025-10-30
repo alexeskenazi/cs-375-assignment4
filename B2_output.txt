@@ -10,4 +10,4 @@ Maximum profit: N/A
 # (x3): N/A
 
 //** print out running time **/
-0.035 milliseconds
+0.014 milliseconds
