@@ -95,4 +95,6 @@ Print out:
 
 To answer the Question #9 (Part A), implement the Simplex Algorithm and display the results by your program, and print out the running time.
 
+![Question number 9](B3_9_image.png "Question #9")
+
 ---
