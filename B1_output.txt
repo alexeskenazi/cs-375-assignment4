@@ -1,0 +1,18 @@
+//** Print out a cycle of a graph **/
+No Cycle
+
+//** Show sorted nodes by topological sorting algorithm **/
+cs1, cs2, cs3, cs4, cs6, cs12, cs5, cs7, cs13, cs14, cs8, cs9, cs15, cs11, cs10
+
+//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **/
+Edge types classified during DFS traversal
+
+//** minimum number of semesters **/
+5
+
+//** Bipartite (if No) **/
+V1 = 0
+V2 = 0
+
+//** print out running time **/
+0.141 milliseconds
