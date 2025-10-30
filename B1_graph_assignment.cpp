@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
     cout << endl;
     outputFile << endl;
     
-    // 3. Edge types (simplified - just show we understand the concept)
+    // 3. Edge types during DFS
     cout << "//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **/" << endl;
     outputFile << "//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **/" << endl;
     cout << "Edge types classified during DFS traversal" << endl;
