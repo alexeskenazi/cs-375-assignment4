@@ -13,11 +13,11 @@ using namespace std;
 
 class DietProblem {
 public:
-    // Cost per cup (objective function coefficients)
+    // Cost per cup
     double drinkX_cost;
     double drinkY_cost;
     
-    // Nutritional content per cup (constraint coefficients)
+    // Nutritional content per cup
     double drinkX_calories;
     double drinkX_vitA;
     double drinkX_vitC;
@@ -26,7 +26,7 @@ public:
     double drinkY_vitA;
     double drinkY_vitC;
     
-    // Daily nutritional requirements (RHS values)
+    // Daily nutritional requirements
     double min_calories;
     double min_vitA;
     double min_vitC;

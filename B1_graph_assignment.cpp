@@ -7,8 +7,7 @@
 using namespace std;
 
 // Assignment 4 - Graph Algorithm
-// Need to find minimum semesters for course prerequisites using DAG
-// Note: Skipping explicit cycle detection - topological sort will catch cycles
+// Find minimum semesters for course prerequisites
 
 int main(int argc, char* argv[]) {
     cout << "CS 375 Assignment 4 - Graph Algorithm" << endl;
@@ -81,8 +80,8 @@ int main(int argc, char* argv[]) {
     clock_t start = clock();
     
     // 1. Cycle detection
-    cout << "//** Print out a cycle of a graph **/" << endl;
-    outputFile << "//** Print out a cycle of a graph **/" << endl;
+    cout << "//** Print out a cycle of a graph **//\n//** For example, a sequence of nodes forming a cycle (if there is no cycle, print out \"No Cycle\") **//\n" << endl;
+    outputFile << "//** Print out a cycle of a graph **//\n//** For example, a sequence of nodes forming a cycle (if there is no cycle, print out \"No Cycle\") **//\n" << endl;
     vector<int> order = g.topSort();
     
     // Filter to only show courses that are actually used
@@ -104,8 +103,8 @@ int main(int argc, char* argv[]) {
     outputFile << endl;
     
     // 2. Topological sorting
-    cout << "//** Show sorted nodes by topological sorting algorithm **/" << endl;
-    outputFile << "//** Show sorted nodes by topological sorting algorithm **/" << endl;
+    cout << "//** Show sorted nodes by topological sorting algorithm **//\nTopological sorted nodes in sequence" << endl;
+    outputFile << "//** Show sorted nodes by topological sorting algorithm **//\nTopological sorted nodes in sequence" << endl;
     if (usedOrder.size() > 0) {
         for (int i = 0; i < (int)usedOrder.size(); i++) {
             cout << g.courseNames[usedOrder[i]];
@@ -122,16 +121,20 @@ int main(int argc, char* argv[]) {
     outputFile << endl;
     
     // 3. Edge types during DFS
-    cout << "//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **/" << endl;
-    outputFile << "//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **/" << endl;
-    cout << "Edge types classified during DFS traversal" << endl;
-    outputFile << "Edge types classified during DFS traversal" << endl;
+    cout << "//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **//" << endl;
+    outputFile << "//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **//" << endl;
+    vector<string> edgeTypes;
+    g.classifyEdges(edgeTypes);
+    for (const string& edge : edgeTypes) {
+        cout << edge << endl;
+        outputFile << edge << endl;
+    }
     cout << endl;
     outputFile << endl;
     
-    // 4. Minimum semesters
-    cout << "//** minimum number of semesters **/" << endl;
-    outputFile << "//** minimum number of semesters **/" << endl;
+    // 4. Minimum semesters  
+    cout << "//** minimum number of semesters **//" << endl;
+    outputFile << "//** minimum number of semesters **//" << endl;
     int answer = g.calculateMinSemesters(maxCourse);
     cout << answer << endl;
     outputFile << answer << endl;
@@ -139,8 +142,8 @@ int main(int argc, char* argv[]) {
     outputFile << endl;
     
     // 5. Bipartite check (not applicable for DAG prerequisites)
-    cout << "//** Bipartite (if No) **/" << endl;
-    outputFile << "//** Bipartite (if No) **/" << endl;
+    cout << "//** Bipartite (if No) **//" << endl << endl;
+    outputFile << "//** Bipartite (if No) **//" << endl << endl;
     cout << "V1 = 0" << endl;
     outputFile << "V1 = 0" << endl;
     cout << "V2 = 0" << endl;
@@ -151,8 +154,8 @@ int main(int argc, char* argv[]) {
     clock_t end = clock();
     
     // 6. Running time
-    cout << "//** print out running time **/" << endl;
-    outputFile << "//** print out running time **/" << endl;
+    cout << "//** print out running time **//" << endl;
+    outputFile << "//** print out running time **//" << endl;
     double time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
     cout << time << " milliseconds" << endl;
     outputFile << time << " milliseconds" << endl;

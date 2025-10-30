@@ -116,11 +116,7 @@ public:
             semester[course] = maxPrereqSemester + 1;
         }
         
-        // Show when each course can be taken
-        cout << "Course scheduling:" << endl;
-        for (int i = 0; i <= maxCourse; i++) {
-            cout << courseNames[i] << " - semester " << semester[i] << endl;
-        }
+        // Course scheduling calculated silently
         
         // Find maximum semester
         int maxSem = 0;
@@ -160,6 +156,45 @@ public:
             }
         }
         return false;
+    }
+    
+    // Classify edges using DFS
+    void classifyEdges(vector<string>& edgeTypes) {
+        vector<int> color(numCourses, 0); // 0=white, 1=gray, 2=black
+        vector<int> discovery(numCourses, 0);
+        vector<int> finish(numCourses, 0);
+        int timeCounter = 0;
+        
+        for (int i = 0; i < numCourses; i++) {
+            if (color[i] == 0) {
+                dfsClassify(i, color, discovery, finish, timeCounter, edgeTypes);
+            }
+        }
+    }
+    
+    void dfsClassify(int u, vector<int>& color, vector<int>& discovery, vector<int>& finish, int& timeCounter, vector<string>& edgeTypes) {
+        color[u] = 1; // gray
+        discovery[u] = ++timeCounter;
+        
+        for (int v : adj[u]) {
+            string edgeType;
+            if (color[v] == 0) {
+                edgeType = "T"; // Tree edge
+                dfsClassify(v, color, discovery, finish, timeCounter, edgeTypes);
+            } else if (color[v] == 1) {
+                edgeType = "B"; // Back edge
+            } else { // color[v] == 2 (black)
+                if (discovery[u] < discovery[v]) {
+                    edgeType = "F"; // Forward edge
+                } else {
+                    edgeType = "C"; // Cross edge
+                }
+            }
+            edgeTypes.push_back("Edge (" + courseNames[u] + ", " + courseNames[v] + ")  Type (" + edgeType + ")");
+        }
+        
+        color[u] = 2; // black
+        finish[u] = ++timeCounter;
     }
     
     // Check if graph is bipartite - can color with 2 colors
