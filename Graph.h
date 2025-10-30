@@ -94,7 +94,8 @@ public:
     }
     
     // Calculate minimum semesters - each course semester = 1 + max of prerequisite semesters
-    int calculateMinSemesters() {
+    int calculateMinSemesters(int maxCourse = -1) {
+        if (maxCourse == -1) maxCourse = numCourses - 1;
         vector<int> semester(numCourses, 0);
         vector<int> order = topSort();
         
@@ -117,13 +118,13 @@ public:
         
         // Show when each course can be taken
         cout << "Course scheduling:" << endl;
-        for (int i = 0; i < numCourses; i++) {
+        for (int i = 0; i <= maxCourse; i++) {
             cout << courseNames[i] << " - semester " << semester[i] << endl;
         }
         
         // Find maximum semester
         int maxSem = 0;
-        for (int i = 0; i < numCourses; i++) {
+        for (int i = 0; i <= maxCourse; i++) {
             maxSem = max(maxSem, semester[i]);
         }
         

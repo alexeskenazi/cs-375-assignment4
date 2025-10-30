@@ -27,11 +27,11 @@ int main(int argc, char* argv[]) {
         outputFileName = argv[2];
     }
     
-    // Create graph with 15 courses (cs1 through cs15)
-    Graph g(15);
+    // Create graph with up to 100 courses
+    Graph g(100);
     
-    // Set course names from cs1 to cs15
-    for (int i = 0; i < 15; i++) {
+    // Set course names 
+    for (int i = 0; i < 100; i++) {
         g.setCourseName(i, "cs" + to_string(i + 1));
     }
     
@@ -44,6 +44,7 @@ int main(int argc, char* argv[]) {
     
     string line;
     bool readingCourses = false;
+    int maxCourse = 0;
     
     while (getline(inputFile, line)) {
         if (line.find("CSi --> CSj") != string::npos) {
@@ -64,11 +65,15 @@ int main(int argc, char* argv[]) {
                 int prereqNum = stoi(prereq.substr(2)) - 1;
                 int courseNum = stoi(course.substr(2)) - 1;
                 
+                maxCourse = max(maxCourse, max(prereqNum, courseNum));
                 g.addEdge(prereqNum, courseNum);
             }
         }
     }
-    inputFile.close(); 
+    inputFile.close();
+    
+    // Set actual number of courses used
+    int numCoursesUsed = maxCourse + 1; 
     
     // Open output file
     ofstream outputFile(outputFileName);
@@ -79,7 +84,16 @@ int main(int argc, char* argv[]) {
     cout << "//** Print out a cycle of a graph **/" << endl;
     outputFile << "//** Print out a cycle of a graph **/" << endl;
     vector<int> order = g.topSort();
-    if (order.size() != 15) {
+    
+    // Filter to only show courses that are actually used
+    vector<int> usedOrder;
+    for (int course : order) {
+        if (course <= maxCourse) {
+            usedOrder.push_back(course);
+        }
+    }
+    
+    if ((int)usedOrder.size() != numCoursesUsed) {
         cout << "Cycle detected in prerequisite structure" << endl;
         outputFile << "Cycle detected in prerequisite structure" << endl;
     } else {
@@ -92,11 +106,11 @@ int main(int argc, char* argv[]) {
     // 2. Topological sorting
     cout << "//** Show sorted nodes by topological sorting algorithm **/" << endl;
     outputFile << "//** Show sorted nodes by topological sorting algorithm **/" << endl;
-    if (order.size() == 15) {
-        for (int i = 0; i < (int)order.size(); i++) {
-            cout << g.courseNames[order[i]];
-            outputFile << g.courseNames[order[i]];
-            if (i < (int)order.size() - 1) {
+    if (usedOrder.size() > 0) {
+        for (int i = 0; i < (int)usedOrder.size(); i++) {
+            cout << g.courseNames[usedOrder[i]];
+            outputFile << g.courseNames[usedOrder[i]];
+            if (i < (int)usedOrder.size() - 1) {
                 cout << ", ";
                 outputFile << ", ";
             }
@@ -118,7 +132,7 @@ int main(int argc, char* argv[]) {
     // 4. Minimum semesters
     cout << "//** minimum number of semesters **/" << endl;
     outputFile << "//** minimum number of semesters **/" << endl;
-    int answer = g.calculateMinSemesters();
+    int answer = g.calculateMinSemesters(maxCourse);
     cout << answer << endl;
     outputFile << answer << endl;
     cout << endl;
