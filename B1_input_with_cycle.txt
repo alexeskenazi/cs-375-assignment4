@@ -1,0 +1,6 @@
+//** Directed Graph with N course (CSi --> CSj) **/
+CS1 CS2
+CS2 CS3
+CS3 CS1
+CS4 CS5
+CS5 CS6
