@@ -1,18 +1,36 @@
-//** Print out a cycle of a graph **/
+//** Print out a cycle of a graph **//
+//** For example, a sequence of nodes forming a cycle (if there is no cycle, print out "No Cycle") **//
+
 No Cycle
 
-//** Show sorted nodes by topological sorting algorithm **/
+//** Show sorted nodes by topological sorting algorithm **//
+Topological sorted nodes in sequence
 cs1, cs2, cs3, cs4, cs6, cs12, cs5, cs7, cs13, cs14, cs8, cs9, cs15, cs11, cs10
 
-//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **/
-Edge types classified during DFS traversal
+//** Print out the edge types (Edge (x, y), Type (T or F or B or C) **//
+Edge (cs8, cs11)  Type (T)
+Edge (cs6, cs8)  Type (T)
+Edge (cs6, cs13)  Type (T)
+Edge (cs14, cs15)  Type (T)
+Edge (cs6, cs14)  Type (T)
+Edge (cs1, cs6)  Type (T)
+Edge (cs5, cs8)  Type (C)
+Edge (cs4, cs5)  Type (T)
+Edge (cs9, cs10)  Type (T)
+Edge (cs7, cs9)  Type (T)
+Edge (cs4, cs7)  Type (T)
+Edge (cs4, cs14)  Type (C)
+Edge (cs2, cs4)  Type (T)
+Edge (cs3, cs6)  Type (C)
+Edge (cs3, cs12)  Type (T)
 
-//** minimum number of semesters **/
+//** minimum number of semesters **//
 5
 
-//** Bipartite (if No) **/
+//** Bipartite (if No) **//
+
 V1 = 0
 V2 = 0
 
-//** print out running time **/
-0.16 milliseconds
+//** print out running time **//
+0.34 milliseconds
