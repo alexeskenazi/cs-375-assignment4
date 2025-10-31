@@ -2,6 +2,7 @@
 #include <vector>
 #include <iomanip>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
@@ -77,7 +78,9 @@ public:
             }
             
             for (int j = 0; j < cols; j++) {
-                cout << table[i][j] << "\t";
+                double val = table[i][j];
+                if (abs(val) < 1e-10) val = 0;
+                cout << val << "\t";
             }
             cout << endl;
         }
